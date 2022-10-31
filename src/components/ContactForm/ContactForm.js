@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
 
 class ContactForm extends Component {
   state = {
@@ -8,22 +7,13 @@ class ContactForm extends Component {
   };
 
   handleChange = e => {
-    this.setState({ name: e.target.value });
-  };
-  handleChangeNumber = e => {
-    this.setState({ number: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    let loginInputId = nanoid();
-    this.props.contacts.push({
-      name: this.state.name,
-      number: this.state.number,
-      id: loginInputId,
-    });
-    console.log(this.props.contacts);
-    console.log(this.props.contacts[0]);
+    this.props.onSubmit(this.state);
     this.setState({ name: '', number: '' });
   };
 
@@ -47,7 +37,7 @@ class ContactForm extends Component {
           <input
             type="tel"
             value={this.state.number}
-            onChange={this.handleChangeNumber}
+            onChange={this.handleChange}
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
