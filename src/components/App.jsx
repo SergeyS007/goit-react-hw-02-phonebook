@@ -11,21 +11,20 @@ class App extends Component {
   };
 
   formSubmitHandler = data => {
-    const { name, number } = data;
+    const { name } = data;
     const { contacts } = this.state;
     let loginInputId = nanoid();
+    data.id = loginInputId;
+
     for (const contact of contacts) {
       if (contact.name === name) {
         alert(`${name} is already in contacts`);
         return;
       }
     }
-    console.log(name, number);
-    contacts.push({
-      name: name,
-      number: number,
-      id: loginInputId,
-    });
+    this.setState(({ contacts }) => ({
+      contacts: [...contacts, data],
+    }));
   };
 
   deleteContact = contactId => {
