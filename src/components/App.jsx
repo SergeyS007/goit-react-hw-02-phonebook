@@ -16,20 +16,14 @@ class App extends Component {
     let loginInputId = nanoid();
     data.id = loginInputId;
 
-    for (const contact of contacts) {
-      if (contact.name === name) {
-        alert(`${name} is already in contacts`);
-        return;
-      }
+    let nameInContacts = contacts.find(contact => contact.name === name);
+
+    if (nameInContacts) {
+      alert(`${name} is already in contacts`);
+      return;
     }
     this.setState(({ contacts }) => ({
       contacts: [...contacts, data],
-    }));
-  };
-
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
 
@@ -37,10 +31,26 @@ class App extends Component {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  deleteContact = contactId => {
+    console.log(contactId);
+    this.setState({
+      contacts: this.state.contacts.filter(contact => contact.id !== contactId),
+    });
+  };
+
+  // deleteContact = contactId => {
+  //   console.log(contactId);
+  //   console.log(this.state.contacts);
+  // this.setState(prevState => ({
+  //   contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+  // }));
+  // };
+
   render() {
     const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
     const filteredContacts = contacts.filter(contact =>
-      contact.name.includes(filter)
+      contact.name.toLowerCase().includes(normalizedFilter)
     );
     console.log(filteredContacts);
     return (

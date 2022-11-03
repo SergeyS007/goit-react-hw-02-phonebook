@@ -11,3 +11,7 @@
 .filter_input-blue {
   outline: 2px solid rgb(41, 41, 240);
 }
+.filter_input:hover,
+.filter_input:focus {
+  border: 2px solid rgb(41, 41, 240);
+}
